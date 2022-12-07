@@ -1,0 +1,37 @@
+body {
+  background-color: #111;
+}
+
+.bg-dark {
+  background-color: #111 !important;
+}
+
+.text-vue {
+  background: linear-gradient(92.11deg, #21EB93 32.69%, #0074B0 75.01%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.text-vue-dark {
+  background: linear-gradient(92.11deg, #047645 32.69%, #0074B0 75.01%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.bg-green-vue {
+  background-color: #20d787;
+}
+
+.time-price {
+  font-size: 20px;
+}
+
+.notie-textbox {
+  z-index: 9999999 !important;
+}
+
+/*# sourceMappingURL=style.css.map*/
