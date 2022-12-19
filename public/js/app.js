@@ -19707,6 +19707,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   setup: function setup() {
     var user = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.usePage)().props.value.auth.user;
+    var active_buy = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.usePage)().props.value.active_buy;
+    return {
+      user: user,
+      active_buy: active_buy
+    };
   },
   components: {
     LayoutVue: _Layout_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -19779,9 +19784,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Components_Navbar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Components/Navbar.vue */ "./resources/js/Components/Navbar.vue");
 /* harmony import */ var _Layout_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layout.vue */ "./resources/js/Pages/Layout.vue");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  setup: function setup() {
+    var user = (0,vue__WEBPACK_IMPORTED_MODULE_3__.computed)(function () {
+      return (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.usePage)().props.value.auth.user;
+    });
+    return {
+      user: user
+    };
+  },
   components: {
     Navbar: _Components_Navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     LayoutVue: _Layout_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -19791,7 +19808,17 @@ __webpack_require__.r(__webpack_exports__);
     courses: Object,
     pricings: Array
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {},
+  methods: {
+    showAlertLogin: function showAlertLogin(event, url) {
+      if (!this.user) {
+        event.preventDefault();
+        window.location.href = '/login?buy_plan=1';
+      } else {
+        window.location.href = url;
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -19865,7 +19892,8 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup() {
     var form = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.useForm)({
       email: null,
-      password: null
+      password: null,
+      buy_plan_id: null
     });
     return {
       form: form
@@ -19873,7 +19901,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     sr: '',
-    pl: ''
+    pl: '',
+    buy_plan_id: '',
+    plan: Object
   },
   components: {
     LayoutVue: _Layout_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
@@ -19895,6 +19925,18 @@ __webpack_require__.r(__webpack_exports__);
         stay: false,
         time: 3,
         position: 'top'
+      });
+    }
+  },
+  methods: {
+    submitLogin: function submitLogin() {
+      var _this = this;
+      this.form.buy_plan_id = this.plan ? this.plan.id : null;
+      this.form.post('/process_login', {
+        preserveScroll: true,
+        onSuccess: function onSuccess() {
+          return _this.form.reset('password');
+        }
       });
     }
   }
@@ -19975,7 +20017,51 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {
     LayoutVue: _Layout_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: {
+    buy_plan_id: '',
+    plan: Object
+  },
+  methods: {
+    submitRegister: function submitRegister() {
+      var _this = this;
+      this.form.buy_plan_id = this.plan ? this.plan.id : null;
+      this.form.post('/process_register', {
+        preserveScroll: true,
+        onSuccess: function onSuccess() {
+          return _this.form.reset('password');
+        }
+      });
+    }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/TapPlan.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/TapPlan.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Components_Navbar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Components/Navbar.vue */ "./resources/js/Components/Navbar.vue");
+/* harmony import */ var _Layout_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layout.vue */ "./resources/js/Pages/Layout.vue");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    Navbar: _Components_Navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    LayoutVue: _Layout_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    plan: Object
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -20044,7 +20130,7 @@ var _hoisted_9 = {
 };
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
   "class": "nav-link",
-  href: "/#"
+  href: "/courses"
 }, "Kelas", -1 /* HOISTED */);
 var _hoisted_11 = [_hoisted_10];
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
@@ -20097,7 +20183,7 @@ var _hoisted_2 = {
   "class": "row"
 };
 var _hoisted_3 = {
-  "class": "col-12"
+  "class": "col-12 col-lg-8 mt-4"
 };
 var _hoisted_4 = {
   "class": "text-light"
@@ -20108,48 +20194,94 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   }
 }, null, -1 /* HOISTED */);
 var _hoisted_6 = {
-  "class": "row"
-};
-var _hoisted_7 = {
-  "class": "col-12 col-lg-8 mt-4"
-};
-var _hoisted_8 = {
   "class": "embed-responsive embed-responsive-16by9"
 };
-var _hoisted_9 = ["src"];
-var _hoisted_10 = {
+var _hoisted_7 = ["src"];
+var _hoisted_8 = {
+  key: 1,
+  style: {
+    "height": "400px",
+    "display": "grid",
+    "justify-content": "center",
+    "align-content": "center"
+  },
+  "class": "bg-gradient-vue"
+};
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, " 🔐 Buka pelajaran ini dengan berlangganan. "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  href: "/#pricing",
+  "class": "btn btn-success mt-3"
+}, " Berlangganan ⚡️ ")], -1 /* HOISTED */);
+var _hoisted_10 = [_hoisted_9];
+var _hoisted_11 = {
+  key: 0,
   "class": "d-grid gap-2 mt-4"
 };
-var _hoisted_11 = {
-  "class": "col-12 col-lg-4 mt-4"
-};
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-  "class": "text-light"
-}, " Pembelajaran ", -1 /* HOISTED */);
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  style: {
+    "color": "#fff"
+  }
+}, null, -1 /* HOISTED */);
 var _hoisted_13 = {
-  "class": "wrapper-videos"
+  "class": "text-white"
 };
 var _hoisted_14 = {
+  "class": "col-12 col-lg-4 mt-4"
+};
+var _hoisted_15 = {
+  key: 0
+};
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+  "class": "text-white"
+}, " Roadmap ", -1 /* HOISTED */);
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "row"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-12"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "d-grid gap-2"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  href: "",
+  "class": "btn btn-success",
+  target: "_blank"
+}, " 🗺️ Roadmap ")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  style: {
+    "color": "#fff"
+  }
+})])], -1 /* HOISTED */);
+var _hoisted_18 = [_hoisted_16, _hoisted_17];
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  "class": "text-light"
+}, " Pembelajaran ", -1 /* HOISTED */);
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  style: {
+    "color": "#fff"
+  }
+}, null, -1 /* HOISTED */);
+var _hoisted_21 = {
+  "class": "wrapper-videos"
+};
+var _hoisted_22 = {
   "class": "row",
   style: {
     "padding": "0",
     "margin": "0"
   }
 };
-var _hoisted_15 = {
+var _hoisted_23 = {
   "class": "col-12",
   style: {
     "padding": "0",
     "margin": "0"
   }
 };
-var _hoisted_16 = ["onClick"];
+var _hoisted_24 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
   var _component_layout_vue = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("layout-vue");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_layout_vue, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.course.title), 1 /* TEXT */), _hoisted_5])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.course.title), 1 /* TEXT */), _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [$setup.active_buy.length || $props.course.is_free == 'yes' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("iframe", {
+        key: 0,
         style: {
           "border": "10px solid #B3E7CF"
         },
@@ -20158,23 +20290,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "embed-responsive-item",
         src: 'https://www.youtube.com/embed/' + _this.video_active_data.link + '?rel=0',
         allowfullscreen: ""
-      }, null, 8 /* PROPS */, _hoisted_9)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 8 /* PROPS */, _hoisted_7)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$setup.active_buy.length && $props.course.is_free != 'yes' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, _hoisted_10)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $setup.active_buy.length || $props.course.is_free == 'yes' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-primary",
         onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
           return $data.formMarkDone.post('/mark_as_done', {
             preserveScroll: true
           });
         }, ["prevent"]))
-      }, " Tandai telah selesai ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.videos, function (video) {
+      }, " Tandai telah selesai "), _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.video_active.title), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [$props.course.roadmap_link ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, _hoisted_18)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_19, _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.videos, function (video) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           "class": "d-grid gap-2 mt-2",
           key: video.id
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", $data.video_active_data.id == video.id ? 'btn-outline-primary' : video.status_watch ? 'btn-success' : 'btn-light']),
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", $data.video_active_data.id == video.id ? 'btn-outline-warning' : video.status_watch ? 'btn-success' : 'btn-light']),
           onClick: function onClick($event) {
             return $options.updateIframeVideo(video);
           }
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 11 /* TEXT, CLASS, PROPS */, _hoisted_16)]);
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 11 /* TEXT, CLASS, PROPS */, _hoisted_24)]);
       }), 128 /* KEYED_FRAGMENT */))])])])])])])];
     }),
 
@@ -20424,7 +20556,7 @@ var _hoisted_29 = {
 var _hoisted_30 = {
   "class": "d-grid gap-2"
 };
-var _hoisted_31 = ["href"];
+var _hoisted_31 = ["href", "onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_layout_vue = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("layout-vue");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_layout_vue, null, {
@@ -20454,9 +20586,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             key: feature.id
           }, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature.name), 1 /* TEXT */)]);
         }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-          href: '/plan?=' + pricing.id,
+          href: pricing.payment_link,
           target: "_blank",
-          "class": "btn btn btn-success"
+          "class": "btn btn btn-success",
+          onClick: function onClick($event) {
+            return $options.showAlertLogin($event, pricing.payment_link);
+          }
         }, " Pilih plan ", 8 /* PROPS */, _hoisted_31)])])])]);
       }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"mt-5\" id=\"cheat_sheets\">\n                <div class=\"container\">\n                    <div class=\"row\">\n                        <div class=\"col-12\">\n                            <h1 class=\"text-vue\">\n                                Cheat Sheets\n                            </h1>\n                            <p class=\"text-muted\">\n                                Hemat waktu dan energi.\n                            </p>\n                        </div>\n                        <div class=\"col-12\">\n                            <div class=\"alert alert-warning text-center\">\n                                Tersedia saat launching nanti.\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"mt-5\" id=\"short_tip\">\n                <div class=\"container\">\n                    <div class=\"row\">\n                        <div class=\"col-12\">\n                            <h1 class=\"text-vue\">\n                                Short tip\n                            </h1>\n                            <p class=\"text-muted\">\n                                Short tip yang bikin kamu makin pro.\n                            </p>\n                        </div>\n                        <div class=\"col-12\">\n                            <div class=\"alert alert-warning text-center\">\n                                Tersedia saat launching nanti.\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </section> ")];
     }),
@@ -20524,37 +20659,48 @@ var _hoisted_6 = {
   "class": "card-body"
 };
 var _hoisted_7 = {
+  key: 0
+};
+var _hoisted_8 = {
+  "class": "alert alert-info"
+};
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */);
+var _hoisted_10 = ["href"];
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  href: "/login",
+  "class": "badge text-bg-danger mt-2 mb-2"
+}, " 🗑️ Hapus ", -1 /* HOISTED */);
+var _hoisted_12 = {
   "class": "form-group mt-2"
 };
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "email"
 }, "Email", -1 /* HOISTED */);
-var _hoisted_9 = {
+var _hoisted_14 = {
   key: 0,
   "class": "text-danger mt-2"
 };
-var _hoisted_10 = {
+var _hoisted_15 = {
   "class": "form-group mt-2"
 };
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "password"
 }, "Password", -1 /* HOISTED */);
-var _hoisted_12 = {
+var _hoisted_17 = {
   key: 0,
   "class": "text-danger mt-2"
 };
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_18 = {
   "class": "d-grid gap-2 mt-3"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "btn btn-primary",
+};
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  "class": "btn btn-success",
   type: "submit"
-}, " Masuk "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+}, " Masuk ", -1 /* HOISTED */);
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
   "class": "text-muted"
-}, "Belum punya akun?"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "/register",
-  "class": "btn btn-sm btn-outline-primary"
-}, " Daftar ")], -1 /* HOISTED */);
-
+}, "Belum punya akun?", -1 /* HOISTED */);
+var _hoisted_21 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_layout_vue = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("layout-vue");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_layout_vue, null, {
@@ -20562,28 +20708,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
         method: "post",
         onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-          return $setup.form.post('/process_login', {
-            preserveScroll: true,
-            onSuccess: function onSuccess() {
-              return $setup.form.reset('password');
-            }
-          });
+          return $options.submitLogin();
         }, ["prevent"]))
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, [$props.plan ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 🛒 Kamu sedang memilih paket "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.plan.package_name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" sebesar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rp. " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.plan.pricing_promo), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(". Masuk/Daftar untuk melakukan pembayaran. ")]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+        href: $props.plan ? '/#pricing?buy_plan=' + $props.plan.id : '/#pricing',
+        "class": "badge text-bg-warning mt-2 mb-2 me-2"
+      }, " 🔄 Ganti ", 8 /* PROPS */, _hoisted_10), _hoisted_11])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
           return $setup.form.email = $event;
         }),
         type: "email",
         "class": "form-control",
         name: "email"
-      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.email]]), $setup.form.errors.email ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.form.errors.email), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.email]]), $setup.form.errors.email ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.form.errors.email), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $setup.form.password = $event;
         }),
         type: "password",
         "class": "form-control",
         name: "password"
-      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.password]]), $setup.form.errors.password ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.form.errors.password), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_13], 32 /* HYDRATE_EVENTS */)])])])])])];
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.password]]), $setup.form.errors.password ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.form.errors.password), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_hoisted_19, _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+        href: !$props.plan ? '/register' : '/register?buy_plan=' + $props.plan.id,
+        "class": "btn btn-sm btn-outline-warning"
+      }, " Daftar ", 8 /* PROPS */, _hoisted_21)])], 32 /* HYDRATE_EVENTS */)])])])])])];
     }),
 
     _: 1 /* STABLE */
@@ -20672,13 +20819,13 @@ var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   "for": "old_password"
 }, "Old Password", -1 /* HOISTED */);
 var _hoisted_21 = {
-  "class": "form-group"
+  "class": "form-group mt-3"
 };
 var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "password"
 }, "Password", -1 /* HOISTED */);
 var _hoisted_23 = {
-  "class": "form-group"
+  "class": "form-group mt-3"
 };
 var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "password_confirmation"
@@ -20802,47 +20949,52 @@ var _hoisted_6 = {
   "class": "card-body"
 };
 var _hoisted_7 = {
+  key: 0
+};
+var _hoisted_8 = {
+  "class": "alert alert-info"
+};
+var _hoisted_9 = {
   "class": "form-group"
 };
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "name"
 }, "Nama", -1 /* HOISTED */);
-var _hoisted_9 = {
+var _hoisted_11 = {
   key: 0,
   "class": "text-danger mt-2"
 };
-var _hoisted_10 = {
+var _hoisted_12 = {
   "class": "form-group mt-2"
 };
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "email"
 }, "Email", -1 /* HOISTED */);
-var _hoisted_12 = {
+var _hoisted_14 = {
   key: 0,
   "class": "text-danger mt-2"
 };
-var _hoisted_13 = {
+var _hoisted_15 = {
   "class": "form-group mt-2"
 };
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "password"
 }, "Password", -1 /* HOISTED */);
-var _hoisted_15 = {
+var _hoisted_17 = {
   key: 0,
   "class": "text-danger mt-2"
 };
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_18 = {
   "class": "d-grid gap-2 mt-3"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "btn btn-primary",
+};
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  "class": "btn btn-success",
   type: "submit"
-}, " Daftar "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+}, " Daftar ", -1 /* HOISTED */);
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
   "class": "text-muted"
-}, "Sudah punya akun?"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "/login",
-  "class": "btn btn-sm btn-outline-primary"
-}, " Masuk ")], -1 /* HOISTED */);
-
+}, "Sudah punya akun?", -1 /* HOISTED */);
+var _hoisted_21 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_layout_vue = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("layout-vue");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_layout_vue, null, {
@@ -20850,37 +21002,114 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
         method: "post",
         onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-          return $setup.form.post('/process_register', {
-            preserveScroll: true,
-            onSuccess: function onSuccess() {
-              return $setup.form.reset('password');
-            }
-          });
+          return $options.submitRegister();
         }, ["prevent"]))
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, [$props.plan ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 🛒 Kamu sedang memilih paket "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.plan.package_name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" sebesar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rp. " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.plan.pricing_promo), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(". Masuk/Daftar untuk melakukan pembayaran. ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
           return $setup.form.name_user = $event;
         }),
         type: "text",
         "class": "form-control",
         name: "name"
-      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.name_user]]), $setup.form.errors.name_user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.form.errors.name_user), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.name_user]]), $setup.form.errors.name_user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.form.errors.name_user), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $setup.form.email = $event;
         }),
         type: "email",
         "class": "form-control",
         name: "email"
-      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.email]]), $setup.form.errors.email ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.form.errors.email), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.email]]), $setup.form.errors.email ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.form.errors.email), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
           return $setup.form.password = $event;
         }),
         type: "password",
         "class": "form-control",
         name: "password"
-      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.password]]), $setup.form.errors.password ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.form.errors.password), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_16], 32 /* HYDRATE_EVENTS */)])])])])])];
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.password]]), $setup.form.errors.password ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.form.errors.password), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_hoisted_19, _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+        href: !$props.plan ? '/login' : '/login?buy_plan=' + $props.plan.id,
+        "class": "btn btn-sm btn-outline-warning"
+      }, " Masuk ", 8 /* PROPS */, _hoisted_21)])], 32 /* HYDRATE_EVENTS */)])])])])])];
     }),
 
+    _: 1 /* STABLE */
+  })]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/TapPlan.vue?vue&type=template&id=401af7d3":
+/*!************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/TapPlan.vue?vue&type=template&id=401af7d3 ***!
+  \************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "mt-5",
+  id: "level-1"
+};
+var _hoisted_2 = {
+  "class": "container"
+};
+var _hoisted_3 = {
+  "class": "row justify-content-center"
+};
+var _hoisted_4 = {
+  "class": "col-12 col-sm-6"
+};
+var _hoisted_5 = {
+  "class": "card"
+};
+var _hoisted_6 = {
+  "class": "card-body"
+};
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, " Akun anda berhasil dibuat. ", -1 /* HOISTED */);
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, " Silakan klik tombol dibawah untuk lanjut ke halaman pembayaran. ", -1 /* HOISTED */);
+var _hoisted_9 = {
+  "class": "alert alert-info"
+};
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pembelian", -1 /* HOISTED */);
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */);
+var _hoisted_12 = {
+  "class": "row"
+};
+var _hoisted_13 = {
+  "class": "col-6"
+};
+var _hoisted_14 = {
+  "class": "col-6"
+};
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-6"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Total")], -1 /* HOISTED */);
+var _hoisted_16 = {
+  "class": "col-6"
+};
+var _hoisted_17 = {
+  "class": "row"
+};
+var _hoisted_18 = {
+  "class": "col-12"
+};
+var _hoisted_19 = {
+  "class": "d-grid gap-2"
+};
+var _hoisted_20 = ["href"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_layout_vue = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("layout-vue");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_layout_vue, null, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 🛒 "), _hoisted_10, _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.plan.package_name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.plan.pricing_promo), 1 /* TEXT */), _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.plan.pricing_promo), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+        href: $props.plan.payment_link,
+        "class": "btn btn-success"
+      }, " Bayar 👉 ", 8 /* PROPS */, _hoisted_20)])])])])])])])])])];
+    }),
     _: 1 /* STABLE */
   })]);
 }
@@ -21025,7 +21254,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n", "",{"version":3,"sources":["webpack://./resources/js/Pages/Course.vue"],"names":[],"mappings":";AAoFA;IACI,aAAa;IACb,WAAW;IACX,gBAAgB;AACpB","sourcesContent":["<template>\n    <div>\n        <layout-vue>\n            <div class=\"container mt-5\" style=\"padding-bottom:200px;\">\n                <div class=\"row\">\n                    <div class=\"col-12\">\n                        <h1 class=\"text-light\">\n                            {{ course.title }}\n                        </h1>\n                        <hr style=\"color:#fff\" />\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-12 col-lg-8 mt-4\">\n                        <div class=\"embed-responsive embed-responsive-16by9\">\n                            <iframe style=\"border:10px solid #B3E7CF;\" width=\"100%\" height=\"400px\" class=\"embed-responsive-item\" :src=\"'https://www.youtube.com/embed/' + this.video_active_data.link +'?rel=0'\" allowfullscreen></iframe>\n                        </div>\n                        <div class=\"d-grid gap-2 mt-4\">\n                            <button class=\"btn btn-primary\" @click.prevent=\"\n                            formMarkDone.post('/mark_as_done', {\n                                preserveScroll: true,\n                            })\">\n                                Tandai telah selesai\n                            </button>\n                        </div>\n                    </div>\n                    <div class=\"col-12 col-lg-4 mt-4\">\n                        <h4 class=\"text-light\">\n                            Pembelajaran\n                        </h4>\n                        <div class=\"wrapper-videos\">\n                            <div class=\"row\" style=\"padding:0;margin:0;\">\n                                <div class=\"col-12\" style=\"padding:0;margin:0;\">\n                                    <div class=\"d-grid gap-2 mt-2\" v-for=\"video in videos\" :key=\"video.id\">\n                                        <button class=\"btn\" :class=\"(video_active_data.id == video.id ? 'btn-outline-primary' : (video.status_watch ? 'btn-success' : 'btn-light'))\" @click=\"updateIframeVideo(video)\">\n                                            {{ video.title }}\n                                        </button>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </layout-vue>\n    </div>\n</template>\n<script>\nimport LayoutVue from './Layout.vue';\nimport { useForm } from '@inertiajs/inertia-vue3'\nimport { usePage } from '@inertiajs/inertia-vue3'\nexport default {\n    setup () {\n        const user = usePage().props.value.auth.user;\n    },\n    components:{\n        LayoutVue\n    },\n    props:{\n        course:Object,\n        video_active:Object,\n        videos: Array\n    },\n    data(){\n        return {\n            video_active_data: this.video_active,\n            formMarkDone: useForm({\n                video_id: this.video_active.id,\n                course_id: this.video_active.course_id,\n            })\n        }\n    },\n    methods:{\n        updateIframeVideo(video){\n            // console.log(this.video_active, video)\n            // this.video_active_iframe = 'https://www.youtube.com/embed/' + video.link +'?rel=0';\n            this.video_active_data = video;\n        }\n    },\n    mounted(){\n    }\n};\n</script>\n<style>\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n</style>"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n", "",{"version":3,"sources":["webpack://./resources/js/Pages/Course.vue"],"names":[],"mappings":";AAiHA;IACI,aAAa;IACb,WAAW;IACX,gBAAgB;AACpB","sourcesContent":["<template>\n    <div>\n        <layout-vue>\n            <div class=\"container mt-5\" style=\"padding-bottom:200px;\">\n                <div class=\"row\">\n                    <div class=\"col-12 col-lg-8 mt-4\">\n                        <h1 class=\"text-light\">\n                            {{ course.title }}\n                        </h1>\n                        <hr style=\"color:#fff\" />\n                        <div class=\"embed-responsive embed-responsive-16by9\">\n                            <iframe v-if=\"active_buy.length || course.is_free == 'yes'\" style=\"border:10px solid #B3E7CF;\" width=\"100%\" height=\"400px\" class=\"embed-responsive-item\" :src=\"'https://www.youtube.com/embed/' + this.video_active_data.link +'?rel=0'\" allowfullscreen></iframe>\n                            <div v-if=\"!active_buy.length && course.is_free != 'yes'\" style=\"height:400px;display: grid;justify-content: center;align-content: center;\" class=\"bg-gradient-vue\">\n                                <div>\n                                    <h4>\n                                        🔐 Buka pelajaran ini dengan berlangganan.\n                                    </h4>\n                                    <a href=\"/#pricing\" class=\"btn btn-success mt-3\">\n                                        Berlangganan ⚡️\n                                    </a>\n                                </div>\n                            </div>\n                        </div>\n                        <div class=\"d-grid gap-2 mt-4\" v-if=\"active_buy.length || course.is_free == 'yes'\">\n                            <button class=\"btn btn-primary\" @click.prevent=\"\n                            formMarkDone.post('/mark_as_done', {\n                                preserveScroll: true,\n                            })\">\n                                Tandai telah selesai\n                            </button>\n                            <hr style=\"color:#fff\" />\n                            <b class=\"text-white\">\n                                {{ video_active.title }}\n                            </b>\n                        </div>\n                    </div>\n                    <div class=\"col-12 col-lg-4 mt-4\">\n                        <div v-if=\"course.roadmap_link\">\n                            <b class=\"text-white\">\n                                Roadmap\n                            </b>\n                            <div class=\"row\">\n                                <div class=\"col-12\">\n                                    <div class=\"d-grid gap-2\">\n                                        <a href=\"\" class=\"btn btn-success\" target=\"_blank\">\n                                            🗺️ Roadmap\n                                        </a>\n                                    </div>\n                                    <hr style=\"color:#fff\" />\n                                </div>\n                            </div>\n                        </div>\n                        <h4 class=\"text-light\">\n                            Pembelajaran\n                        </h4>\n                        <hr style=\"color:#fff\" />\n                        <div class=\"wrapper-videos\">\n                            <div class=\"row\" style=\"padding:0;margin:0;\">\n                                <div class=\"col-12\" style=\"padding:0;margin:0;\">\n                                    <div class=\"d-grid gap-2 mt-2\" v-for=\"video in videos\" :key=\"video.id\">\n                                        <button class=\"btn\" :class=\"(video_active_data.id == video.id ? 'btn-outline-warning' : (video.status_watch ? 'btn-success' : 'btn-light'))\" @click=\"updateIframeVideo(video)\">\n                                            {{ video.title }}\n                                        </button>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </layout-vue>\n    </div>\n</template>\n<script>\nimport LayoutVue from './Layout.vue';\nimport { useForm } from '@inertiajs/inertia-vue3'\nimport { usePage } from '@inertiajs/inertia-vue3'\nexport default {\n    setup () {\n        const user = usePage().props.value.auth.user;\n        const active_buy = usePage().props.value.active_buy;\n        return {user, active_buy};\n    },\n    components:{\n        LayoutVue\n    },\n    props:{\n        course:Object,\n        video_active:Object,\n        videos: Array\n    },\n    data(){\n        return {\n            video_active_data: this.video_active,\n            formMarkDone: useForm({\n                video_id: this.video_active.id,\n                course_id: this.video_active.course_id,\n            })\n        }\n    },\n    methods:{\n        updateIframeVideo(video){\n            // console.log(this.video_active, video)\n            // this.video_active_iframe = 'https://www.youtube.com/embed/' + video.link +'?rel=0';\n            this.video_active_data = video;\n        }\n    },\n    mounted(){\n        \n    }\n};\n</script>\n<style>\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n</style>"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -21052,7 +21281,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n", "",{"version":3,"sources":["webpack://./resources/js/Pages/Login.vue"],"names":[],"mappings":";AAqFA;IACI,aAAa;IACb,WAAW;IACX,gBAAgB;AACpB","sourcesContent":["<template>\n    <div>\n        <layout-vue>\n            <div class=\"container mt-5\" style=\"padding-bottom:200px;\">\n                <div class=\"row justify-content-center\">\n                    <div class=\"col-12 col-sm-4\">\n                        <h2 class=\"text-vue\">\n                            Login\n                        </h2>\n                        <div class=\"card mt-5\">\n                            <div class=\"card-body\">\n                                <form method=\"post\" @submit.prevent=\"form.post('/process_login', {\n                                    preserveScroll: true,\n                                    onSuccess: () => form.reset('password'),\n                                })\">\n                                    <div class=\"form-group mt-2\">\n                                        <label for=\"email\">Email</label>\n                                        <input v-model=\"form.email\" type=\"email\" class=\"form-control\" name=\"email\">\n                                        <small class=\"text-danger mt-2\" v-if=\"form.errors.email\">{{ form.errors.email }}</small>\n                                    </div>\n                                    <div class=\"form-group mt-2\">\n                                        <label for=\"password\">Password</label>\n                                        <input v-model=\"form.password\" type=\"password\" class=\"form-control\" name=\"password\">\n                                        <small class=\"text-danger mt-2\" v-if=\"form.errors.password\">{{ form.errors.password }}</small>\n                                    </div>\n                                    <div class=\"d-grid gap-2 mt-3\">\n                                        <button class=\"btn btn-primary\" type=\"submit\">\n                                            Masuk\n                                        </button>\n                                        <small class=\"text-muted\">Belum punya akun?</small>\n                                        <a href=\"/register\" class=\"btn btn-sm btn-outline-primary\">\n                                            Daftar\n                                        </a>\n                                    </div>\n                                </form>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </layout-vue>\n    </div>\n</template>\n<script>\nimport LayoutVue from './Layout.vue';\nimport { useForm } from '@inertiajs/inertia-vue3'\nimport notie from 'notie';\nexport default {\n    setup () {\n        const form = useForm({\n            email: null,\n            password: null,\n        })\n        return { form }\n    },\n    props:{\n        sr:'',\n        pl:'',\n    },  \n    components:{\n        LayoutVue\n    },\n    mounted(){\n        if(this.sr == 't'){\n            notie.alert({\n                type: 'success',\n                text: 'Berhasil daftar, silakan verifikasi email anda!',\n                stay: false,\n                time: 3,\n                position: 'top'\n            })\n        }\n        if(this.pl == 't'){\n            notie.alert({\n                type: 'error',\n                text: 'Email atau password salah!',\n                stay: false,\n                time: 3,\n                position: 'top'\n            })\n        }\n    }\n};\n</script>\n<style>\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n</style>"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n", "",{"version":3,"sources":["webpack://./resources/js/Pages/Login.vue"],"names":[],"mappings":";AA4GA;IACI,aAAa;IACb,WAAW;IACX,gBAAgB;AACpB","sourcesContent":["<template>\n    <div>\n        <layout-vue>\n            <div class=\"container mt-5\" style=\"padding-bottom:200px;\">\n                <div class=\"row justify-content-center\">\n                    <div class=\"col-12 col-sm-4\">\n                        <h2 class=\"text-vue\">\n                            Login\n                        </h2>\n                        <div class=\"card mt-5\">\n                            <div class=\"card-body\">\n                                <form method=\"post\" @submit.prevent=\"submitLogin()\">\n                                    <div v-if=\"plan\">\n                                        <div class=\"alert alert-info\">\n                                            <small>\n                                                🛒 Kamu sedang memilih paket <b>{{ plan.package_name }}</b> sebesar <b>Rp. {{ plan.pricing_promo }}</b>. Masuk/Daftar untuk melakukan pembayaran.\n                                            </small>\n                                            <br>\n                                            <a :href=\"plan ? '/#pricing?buy_plan=' + plan.id : '/#pricing'\" class=\"badge text-bg-warning mt-2 mb-2 me-2\">\n                                                🔄 Ganti\n                                            </a>\n                                            <a href=\"/login\" class=\"badge text-bg-danger mt-2 mb-2 \">\n                                                🗑️ Hapus\n                                            </a>\n                                        </div>\n                                    </div>\n                                    <div class=\"form-group mt-2\">\n                                        <label for=\"email\">Email</label>\n                                        <input v-model=\"form.email\" type=\"email\" class=\"form-control\" name=\"email\">\n                                        <small class=\"text-danger mt-2\" v-if=\"form.errors.email\">{{ form.errors.email }}</small>\n                                    </div>\n                                    <div class=\"form-group mt-2\">\n                                        <label for=\"password\">Password</label>\n                                        <input v-model=\"form.password\" type=\"password\" class=\"form-control\" name=\"password\">\n                                        <small class=\"text-danger mt-2\" v-if=\"form.errors.password\">{{ form.errors.password }}</small>\n                                    </div>\n                                    <div class=\"d-grid gap-2 mt-3\">\n                                        <button class=\"btn btn-success\" type=\"submit\">\n                                            Masuk\n                                        </button>\n                                        <small class=\"text-muted\">Belum punya akun?</small>\n                                        <a :href=\"!plan ? '/register' : '/register?buy_plan=' + plan.id\" class=\"btn btn-sm btn-outline-warning\">\n                                            Daftar\n                                        </a>\n                                    </div>\n                                </form>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </layout-vue>\n    </div>\n</template>\n<script>\nimport LayoutVue from './Layout.vue';\nimport { useForm } from '@inertiajs/inertia-vue3'\nimport notie from 'notie';\nexport default {\n    setup () {\n        const form = useForm({\n            email: null,\n            password: null,\n            buy_plan_id: null\n        })\n        return { form }\n    },\n    props:{\n        sr:'',\n        pl:'',\n        buy_plan_id:'',\n        plan: Object\n    },  \n    components:{\n        LayoutVue\n    },\n    mounted(){\n        if(this.sr == 't'){\n            notie.alert({\n                type: 'success',\n                text: 'Berhasil daftar, silakan verifikasi email anda!',\n                stay: false,\n                time: 3,\n                position: 'top'\n            })\n        }\n        if(this.pl == 't'){\n            notie.alert({\n                type: 'error',\n                text: 'Email atau password salah!',\n                stay: false,\n                time: 3,\n                position: 'top'\n            })\n        }\n    },\n    methods:{\n        submitLogin(){\n            this.form.buy_plan_id = this.plan ? this.plan.id : null;\n            this.form.post('/process_login', {\n                preserveScroll: true,\n                onSuccess: () => this.form.reset('password'),\n            })\n        }\n    }\n};\n</script>\n<style>\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n</style>"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -21079,7 +21308,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n", "",{"version":3,"sources":["webpack://./resources/js/Pages/Register.vue"],"names":[],"mappings":";AAkEA;IACI,aAAa;IACb,WAAW;IACX,gBAAgB;AACpB","sourcesContent":["<template>\n    <div>\n        <layout-vue>\n            <div class=\"container mt-5\" style=\"padding-bottom:200px;\">\n                <div class=\"row justify-content-center\">\n                    <div class=\"col-12 col-sm-4\">\n                        <h2 class=\"text-vue\">\n                            Daftar\n                        </h2>\n                        <div class=\"card mt-5\">\n                            <div class=\"card-body\">\n                                <form method=\"post\" @submit.prevent=\"form.post('/process_register', {\n                                    preserveScroll: true,\n                                    onSuccess: () => form.reset('password'),\n                                })\">\n                                    <div class=\"form-group\">\n                                        <label for=\"name\">Nama</label>\n                                        <input v-model=\"form.name_user\" type=\"text\" class=\"form-control\" name=\"name\">\n                                        <small class=\"text-danger mt-2\" v-if=\"form.errors.name_user\">{{ form.errors.name_user }}</small>\n                                    </div>\n                                    <div class=\"form-group mt-2\">\n                                        <label for=\"email\">Email</label>\n                                        <input v-model=\"form.email\" type=\"email\" class=\"form-control\" name=\"email\">\n                                        <small class=\"text-danger mt-2\" v-if=\"form.errors.email\">{{ form.errors.email }}</small>\n                                    </div>\n                                    <div class=\"form-group mt-2\">\n                                        <label for=\"password\">Password</label>\n                                        <input v-model=\"form.password\" type=\"password\" class=\"form-control\" name=\"password\">\n                                        <small class=\"text-danger mt-2\" v-if=\"form.errors.password\">{{ form.errors.password }}</small>\n                                    </div>\n                                    <div class=\"d-grid gap-2 mt-3\">\n                                        <button class=\"btn btn-primary\" type=\"submit\">\n                                            Daftar\n                                        </button>\n                                        <small class=\"text-muted\">Sudah punya akun?</small>\n                                        <a href=\"/login\" class=\"btn btn-sm btn-outline-primary\">\n                                            Masuk\n                                        </a>\n                                    </div>\n                                </form>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </layout-vue>\n    </div>\n</template>\n<script>\nimport LayoutVue from './Layout.vue';\nimport { useForm } from '@inertiajs/inertia-vue3'\nexport default {\n    setup () {\n        const form = useForm({\n            email: null,\n            password: null,\n            name_user: null,\n        })\n        return { form }\n    },\n    components:{\n        LayoutVue\n    },\n};\n</script>\n<style>\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n</style>"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n", "",{"version":3,"sources":["webpack://./resources/js/Pages/Register.vue"],"names":[],"mappings":";AAmFA;IACI,aAAa;IACb,WAAW;IACX,gBAAgB;AACpB","sourcesContent":["<template>\n    <div>\n        <layout-vue>\n            <div class=\"container mt-5\" style=\"padding-bottom:200px;\">\n                <div class=\"row justify-content-center\">\n                    <div class=\"col-12 col-sm-4\">\n                        <h2 class=\"text-vue\">\n                            Daftar\n                        </h2>\n                        <div class=\"card mt-5\">\n                            <div class=\"card-body\">\n                                <form method=\"post\" @submit.prevent=\"submitRegister()\">\n                                    <div v-if=\"plan\">\n                                        <div class=\"alert alert-info\">\n                                            <small>\n                                                🛒 Kamu sedang memilih paket <b>{{ plan.package_name }}</b> sebesar <b>Rp. {{ plan.pricing_promo }}</b>. Masuk/Daftar untuk melakukan pembayaran.\n                                            </small>\n                                        </div>\n                                    </div>\n                                    <div class=\"form-group\">\n                                        <label for=\"name\">Nama</label>\n                                        <input v-model=\"form.name_user\" type=\"text\" class=\"form-control\" name=\"name\">\n                                        <small class=\"text-danger mt-2\" v-if=\"form.errors.name_user\">{{ form.errors.name_user }}</small>\n                                    </div>\n                                    <div class=\"form-group mt-2\">\n                                        <label for=\"email\">Email</label>\n                                        <input v-model=\"form.email\" type=\"email\" class=\"form-control\" name=\"email\">\n                                        <small class=\"text-danger mt-2\" v-if=\"form.errors.email\">{{ form.errors.email }}</small>\n                                    </div>\n                                    <div class=\"form-group mt-2\">\n                                        <label for=\"password\">Password</label>\n                                        <input v-model=\"form.password\" type=\"password\" class=\"form-control\" name=\"password\">\n                                        <small class=\"text-danger mt-2\" v-if=\"form.errors.password\">{{ form.errors.password }}</small>\n                                    </div>\n                                    <div class=\"d-grid gap-2 mt-3\">\n                                        <button class=\"btn btn-success\" type=\"submit\">\n                                            Daftar\n                                        </button>\n                                        <small class=\"text-muted\">Sudah punya akun?</small>\n                                        <a :href=\"!plan ? '/login' : '/login?buy_plan=' + plan.id\" class=\"btn btn-sm btn-outline-warning\">\n                                            Masuk\n                                        </a>\n                                    </div>\n                                </form>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </layout-vue>\n    </div>\n</template>\n<script>\nimport LayoutVue from './Layout.vue';\nimport { useForm } from '@inertiajs/inertia-vue3'\nexport default {\n    setup () {\n        const form = useForm({\n            email: null,\n            password: null,\n            name_user: null,\n        })\n        return { form }\n    },\n    components:{\n        LayoutVue,\n    },\n    props:{\n        buy_plan_id:'',\n        plan: Object\n    },\n    methods:{\n        submitRegister(){\n            this.form.buy_plan_id = this.plan ? this.plan.id : null;\n            this.form.post('/process_register', {\n                preserveScroll: true,\n                onSuccess: () => this.form.reset('password'),\n            })\n        }\n    }\n};\n</script>\n<style>\n.wrapper-videos{\n    height: 200px;\n    width: 100%;\n    overflow-y: auto;\n}\n</style>"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -28401,6 +28630,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/Pages/TapPlan.vue":
+/*!****************************************!*\
+  !*** ./resources/js/Pages/TapPlan.vue ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _TapPlan_vue_vue_type_template_id_401af7d3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TapPlan.vue?vue&type=template&id=401af7d3 */ "./resources/js/Pages/TapPlan.vue?vue&type=template&id=401af7d3");
+/* harmony import */ var _TapPlan_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TapPlan.vue?vue&type=script&lang=js */ "./resources/js/Pages/TapPlan.vue?vue&type=script&lang=js");
+/* harmony import */ var _Users_yogabagas_Documents_maventama_products_vuemaster_id_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,_Users_yogabagas_Documents_maventama_products_vuemaster_id_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_TapPlan_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_TapPlan_vue_vue_type_template_id_401af7d3__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/Pages/TapPlan.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/Components/Navbar.vue?vue&type=script&lang=js":
 /*!********************************************************************!*\
   !*** ./resources/js/Components/Navbar.vue?vue&type=script&lang=js ***!
@@ -28529,6 +28786,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/TapPlan.vue?vue&type=script&lang=js":
+/*!****************************************************************!*\
+  !*** ./resources/js/Pages/TapPlan.vue?vue&type=script&lang=js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TapPlan_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TapPlan_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TapPlan.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/TapPlan.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/Components/Navbar.vue?vue&type=template&id=4a80dbca":
 /*!**************************************************************************!*\
   !*** ./resources/js/Components/Navbar.vue?vue&type=template&id=4a80dbca ***!
@@ -28653,6 +28926,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Register_vue_vue_type_template_id_b7e42868__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_Register_vue_vue_type_template_id_b7e42868__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./Register.vue?vue&type=template&id=b7e42868 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/Register.vue?vue&type=template&id=b7e42868");
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/TapPlan.vue?vue&type=template&id=401af7d3":
+/*!**********************************************************************!*\
+  !*** ./resources/js/Pages/TapPlan.vue?vue&type=template&id=401af7d3 ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TapPlan_vue_vue_type_template_id_401af7d3__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TapPlan_vue_vue_type_template_id_401af7d3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TapPlan.vue?vue&type=template&id=401af7d3 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Pages/TapPlan.vue?vue&type=template&id=401af7d3");
 
 
 /***/ }),
@@ -28950,7 +29239,9 @@ var map = {
 	"./Profile": "./resources/js/Pages/Profile.vue",
 	"./Profile.vue": "./resources/js/Pages/Profile.vue",
 	"./Register": "./resources/js/Pages/Register.vue",
-	"./Register.vue": "./resources/js/Pages/Register.vue"
+	"./Register.vue": "./resources/js/Pages/Register.vue",
+	"./TapPlan": "./resources/js/Pages/TapPlan.vue",
+	"./TapPlan.vue": "./resources/js/Pages/TapPlan.vue"
 };
 
 

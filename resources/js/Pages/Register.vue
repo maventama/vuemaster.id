@@ -9,10 +9,14 @@
                         </h2>
                         <div class="card mt-5">
                             <div class="card-body">
-                                <form method="post" @submit.prevent="form.post('/process_register', {
-                                    preserveScroll: true,
-                                    onSuccess: () => form.reset('password'),
-                                })">
+                                <form method="post" @submit.prevent="submitRegister()">
+                                    <div v-if="plan">
+                                        <div class="alert alert-info">
+                                            <small>
+                                                🛒 Kamu sedang memilih paket <b>{{ plan.package_name }}</b> sebesar <b>Rp. {{ plan.pricing_promo }}</b>. Masuk/Daftar untuk melakukan pembayaran.
+                                            </small>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label for="name">Nama</label>
                                         <input v-model="form.name_user" type="text" class="form-control" name="name">
@@ -29,11 +33,11 @@
                                         <small class="text-danger mt-2" v-if="form.errors.password">{{ form.errors.password }}</small>
                                     </div>
                                     <div class="d-grid gap-2 mt-3">
-                                        <button class="btn btn-primary" type="submit">
+                                        <button class="btn btn-success" type="submit">
                                             Daftar
                                         </button>
                                         <small class="text-muted">Sudah punya akun?</small>
-                                        <a href="/login" class="btn btn-sm btn-outline-primary">
+                                        <a :href="!plan ? '/login' : '/login?buy_plan=' + plan.id" class="btn btn-sm btn-outline-warning">
                                             Masuk
                                         </a>
                                     </div>
@@ -59,8 +63,21 @@ export default {
         return { form }
     },
     components:{
-        LayoutVue
+        LayoutVue,
     },
+    props:{
+        buy_plan_id:'',
+        plan: Object
+    },
+    methods:{
+        submitRegister(){
+            this.form.buy_plan_id = this.plan ? this.plan.id : null;
+            this.form.post('/process_register', {
+                preserveScroll: true,
+                onSuccess: () => this.form.reset('password'),
+            })
+        }
+    }
 };
 </script>
 <style>

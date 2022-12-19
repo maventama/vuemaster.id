@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,10 @@ Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::post('/process_login', [HomeController::class, 'process_login'])->name('process_login');
 Route::post('/process_register', [HomeController::class, 'process_register'])->name('process_register');
 
+Route::group(['prefix' => 'plan'], function(){
+    Route::get('/tap_to_payment', [PlanController::class, 'tap_to_payment']);
+    Route::get('/{id_plan}', [PlanController::class, 'buy_plan']);
+});
 
 Route::group(['middleware' => 'auth:web'], function(){
     Route::get('/courses', [CourseController::class, 'index']);

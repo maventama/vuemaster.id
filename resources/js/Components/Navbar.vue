@@ -20,7 +20,7 @@
                         <a class="nav-link" href="/#level-1">Roadmap</a>
                     </li>
                     <li class="nav-item" v-if="user">
-                        <a class="nav-link" href="/#">Kelas</a>
+                        <a class="nav-link" href="/courses">Kelas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-vue" href="/#pricing">Harga Launching</a>

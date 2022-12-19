@@ -55,11 +55,11 @@
                                         <label for="old_password">Old Password</label>
                                         <input v-model="formUpdatePassword.old_password" type="password" class="form-control" name="old_password">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mt-3">
                                         <label for="password">Password</label>
                                         <input v-model="formUpdatePassword.password" type="password" class="form-control" name="password">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mt-3">
                                         <label for="password_confirmation">Password Confirmation</label>
                                         <input v-model="formUpdatePassword.password_confirmation" type="password" class="form-control" name="password_confirmation">
                                     </div>

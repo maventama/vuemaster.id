@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\MemberPurchaseModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -41,6 +43,23 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'alert' => $request->session()->get('alert'),
             ],
+            'active_buy' => DB::select("SELECT
+                *
+                FROM member_purchases
+                WHERE (
+                    is_life_time = 'yes'
+                    OR
+                    (
+                        start_active <= '".date('Y-m-d')."'
+                        AND
+                        end_active >=  '".date('Y-m-d')."'
+                    )
+                )
+                AND is_paid = 'yes'
+                AND deleted_at IS NULL
+                ORDER BY id DESC
+                LIMIT 1
+            ")
         ]);
     }
 }

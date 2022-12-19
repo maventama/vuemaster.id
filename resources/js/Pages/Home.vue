@@ -126,7 +126,7 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="d-grid gap-2">
-                                        <a :href="'/plan?=' + pricing.id" target="_blank" class="btn btn btn-success">
+                                        <a :href="pricing.payment_link" target="_blank" class="btn btn btn-success" @click="showAlertLogin($event, pricing.payment_link)">
                                             Pilih plan
                                         </a>
                                     </div>
@@ -180,7 +180,13 @@
 <script>
     import Navbar from '../Components/Navbar.vue';
     import LayoutVue from './Layout.vue';
+    import { usePage } from '@inertiajs/inertia-vue3'
+    import { computed } from 'vue'
     export default {
+        setup() {
+            const user = computed(() => usePage().props.value.auth.user)
+            return { user }
+        },
         components:{
             Navbar,
             LayoutVue
@@ -192,6 +198,16 @@
         },
         mounted(){
             
+        },
+        methods:{
+            showAlertLogin(event, url){
+                if (!this.user) {
+                    event.preventDefault();
+                    window.location.href = '/login?buy_plan=1';
+                }else{
+                    window.location.href = url;
+                }
+            }
         }
     };
 </script>

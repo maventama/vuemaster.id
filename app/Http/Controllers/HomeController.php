@@ -28,14 +28,20 @@ class HomeController extends Controller
         $data['courses'] = $courses;
         return Inertia::render('Home', $data);
     }
-    public function register()
+    public function register(Request $request)
     {
-        return Inertia::render('Register');
+        $data = [
+            'buy_plan_id' => $request->get('buy_plan'),
+            'plan' => PricingModel::find($request->get('buy_plan'))
+        ];
+        return Inertia::render('Register', $data);
     }
     public function login(Request $request)
     {
         $data = [
-            'sr' => $request->get('sr')
+            'sr' => $request->get('sr'),
+            'buy_plan_id' => $request->get('buy_plan'),
+            'plan' => PricingModel::find($request->get('buy_plan'))
         ];
         return Inertia::render('Login', $data);
     }
@@ -72,6 +78,11 @@ class HomeController extends Controller
 
         $credentials = $request->only(['email', 'password']);
         if(Auth::attempt($credentials)){
+            //* redirect ke halaman xendit payment
+            if($request->post('buy_plan_id')){
+                $pricing = PricingModel::find($request->post('buy_plan_id'));
+                return Inertia::location('/plan/tap_to_payment?buy_plan_id=' . $pricing->id);
+            }
 
             request()->session()->flash('alert', [[
                 'type' => 'success',
