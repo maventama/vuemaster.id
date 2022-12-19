@@ -126,7 +126,7 @@
                                 </div>
                                 <div class="card-footer">
                                     <div class="d-grid gap-2">
-                                        <a :href="pricing.payment_link" target="_blank" class="btn btn btn-success" @click="showAlertLogin($event, pricing.payment_link)">
+                                        <a :href="pricing.payment_link" target="_blank" class="btn btn btn-success" @click="showAlertLogin($event, pricing.payment_link, pricing.id)">
                                             Pilih plan
                                         </a>
                                     </div>
@@ -148,7 +148,7 @@
                             </p>
                         </div>
                         <div class="col-12 col-sm-2" v-for="cc in cheat_sheets.data" :key="cc.id">
-                            <a :href="'/storage/' + cc.download_link">
+                            <a @click="showAlertLoginCheatSheets($event, '/storage/' + cc.download_link)">
                                 <img :src="'/storage/' + cc.image_preview" alt="" style="width:100%;">
                             </a>
                         </div>
@@ -182,6 +182,7 @@
     import LayoutVue from './Layout.vue';
     import { usePage } from '@inertiajs/inertia-vue3'
     import { computed } from 'vue'
+    import notie from 'notie';
     export default {
         setup() {
             const user = computed(() => usePage().props.value.auth.user)
@@ -200,10 +201,25 @@
         mounted(){
         },
         methods:{
-            showAlertLogin(event, url){
+            showAlertLogin(event, url, plan_id){
                 if (!this.user) {
                     event.preventDefault();
-                    window.location.href = '/login?buy_plan=1';
+                    window.location.href = '/login?buy_plan=' + plan_id;
+                }else{
+                    window.location.href = url;
+                }
+            },
+            showAlertLoginCheatSheets(event, url){
+                if (!this.user) {
+                    event.preventDefault();
+                    notie.force({
+                        type: 3,
+                        text: 'Masuk dulu yuk kalau mau download.',
+                        buttonText: 'OK',
+                        callback: function () {
+                            window.location.href = '/login';
+                        }
+                    })
                 }else{
                     window.location.href = url;
                 }

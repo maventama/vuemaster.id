@@ -19786,6 +19786,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layout_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layout.vue */ "./resources/js/Pages/Layout.vue");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var notie__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! notie */ "./node_modules/notie/dist/notie.min.js");
+/* harmony import */ var notie__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(notie__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -19811,10 +19814,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {},
   methods: {
-    showAlertLogin: function showAlertLogin(event, url) {
+    showAlertLogin: function showAlertLogin(event, url, plan_id) {
       if (!this.user) {
         event.preventDefault();
-        window.location.href = '/login?buy_plan=1';
+        window.location.href = '/login?buy_plan=' + plan_id;
+      } else {
+        window.location.href = url;
+      }
+    },
+    showAlertLoginCheatSheets: function showAlertLoginCheatSheets(event, url) {
+      if (!this.user) {
+        event.preventDefault();
+        notie__WEBPACK_IMPORTED_MODULE_4___default().force({
+          type: 3,
+          text: 'Masuk dulu yuk kalau mau download.',
+          buttonText: 'OK',
+          callback: function callback() {
+            window.location.href = '/login';
+          }
+        });
       } else {
         window.location.href = url;
       }
@@ -20575,7 +20593,7 @@ var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 }, " Cheat Sheets "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
   "class": "text-muted"
 }, " Hemat waktu dan energi. ")], -1 /* HOISTED */);
-var _hoisted_36 = ["href"];
+var _hoisted_36 = ["onClick"];
 var _hoisted_37 = ["src"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_layout_vue = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("layout-vue");
@@ -20610,7 +20628,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           target: "_blank",
           "class": "btn btn btn-success",
           onClick: function onClick($event) {
-            return $options.showAlertLogin($event, pricing.payment_link);
+            return $options.showAlertLogin($event, pricing.payment_link, pricing.id);
           }
         }, " Pilih plan ", 8 /* PROPS */, _hoisted_31)])])])]);
       }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_hoisted_35, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.cheat_sheets.data, function (cc) {
@@ -20618,7 +20636,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "class": "col-12 col-sm-2",
           key: cc.id
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-          href: '/storage/' + cc.download_link
+          onClick: function onClick($event) {
+            return $options.showAlertLoginCheatSheets($event, '/storage/' + cc.download_link);
+          }
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
           src: '/storage/' + cc.image_preview,
           alt: "",
