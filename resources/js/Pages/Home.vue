@@ -136,7 +136,7 @@
                     </div>
                 </div>
             </section>
-            <!-- <section class="mt-5" id="cheat_sheets">
+            <section class="mt-5" id="cheat_sheets">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
@@ -147,14 +147,14 @@
                                 Hemat waktu dan energi.
                             </p>
                         </div>
-                        <div class="col-12">
-                            <div class="alert alert-warning text-center">
-                                Tersedia saat launching nanti.
-                            </div>
+                        <div class="col-12 col-sm-2" v-for="cc in cheat_sheets.data" :key="cc.id">
+                            <a :href="'/storage/' + cc.download_link">
+                                <img :src="'/storage/' + cc.image_preview" alt="" style="width:100%;">
+                            </a>
                         </div>
                     </div>
                 </div>
-            </section> -->
+            </section>
             <!-- <section class="mt-5" id="short_tip">
                 <div class="container">
                     <div class="row">
@@ -194,10 +194,10 @@
         props:{
             levels: Array,
             courses: Object,
-            pricings: Array
+            pricings: Array,
+            cheat_sheets: Array
         },
         mounted(){
-            
         },
         methods:{
             showAlertLogin(event, url){

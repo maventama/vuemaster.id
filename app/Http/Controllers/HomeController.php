@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DownloadLinkCheatSheetResource;
+use App\Models\CheatSheetModel;
 use App\Models\CourseModel;
 use App\Models\LevelModel;
 use App\Models\PricingModel;
@@ -19,7 +21,8 @@ class HomeController extends Controller
         $levels = LevelModel::all();
         $data = [
             'levels' => $levels,
-            'pricings' => PricingModel::with('pricing_features')->get()
+            'pricings' => PricingModel::with('pricing_features')->get(),
+            'cheat_sheets' => DownloadLinkCheatSheetResource::collection(CheatSheetModel::all())
         ];
         $courses = [];
         foreach ($levels as $key => $level) {

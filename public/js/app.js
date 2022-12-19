@@ -19806,7 +19806,8 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     levels: Array,
     courses: Object,
-    pricings: Array
+    pricings: Array,
+    cheat_sheets: Array
   },
   mounted: function mounted() {},
   methods: {
@@ -20557,6 +20558,25 @@ var _hoisted_30 = {
   "class": "d-grid gap-2"
 };
 var _hoisted_31 = ["href", "onClick"];
+var _hoisted_32 = {
+  "class": "mt-5",
+  id: "cheat_sheets"
+};
+var _hoisted_33 = {
+  "class": "container"
+};
+var _hoisted_34 = {
+  "class": "row"
+};
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-12"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  "class": "text-vue"
+}, " Cheat Sheets "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  "class": "text-muted"
+}, " Hemat waktu dan energi. ")], -1 /* HOISTED */);
+var _hoisted_36 = ["href"];
+var _hoisted_37 = ["src"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_layout_vue = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("layout-vue");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_layout_vue, null, {
@@ -20593,7 +20613,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             return $options.showAlertLogin($event, pricing.payment_link);
           }
         }, " Pilih plan ", 8 /* PROPS */, _hoisted_31)])])])]);
-      }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"mt-5\" id=\"cheat_sheets\">\n                <div class=\"container\">\n                    <div class=\"row\">\n                        <div class=\"col-12\">\n                            <h1 class=\"text-vue\">\n                                Cheat Sheets\n                            </h1>\n                            <p class=\"text-muted\">\n                                Hemat waktu dan energi.\n                            </p>\n                        </div>\n                        <div class=\"col-12\">\n                            <div class=\"alert alert-warning text-center\">\n                                Tersedia saat launching nanti.\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"mt-5\" id=\"short_tip\">\n                <div class=\"container\">\n                    <div class=\"row\">\n                        <div class=\"col-12\">\n                            <h1 class=\"text-vue\">\n                                Short tip\n                            </h1>\n                            <p class=\"text-muted\">\n                                Short tip yang bikin kamu makin pro.\n                            </p>\n                        </div>\n                        <div class=\"col-12\">\n                            <div class=\"alert alert-warning text-center\">\n                                Tersedia saat launching nanti.\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </section> ")];
+      }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_hoisted_35, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.cheat_sheets.data, function (cc) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+          "class": "col-12 col-sm-2",
+          key: cc.id
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+          href: '/storage/' + cc.download_link
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+          src: '/storage/' + cc.image_preview,
+          alt: "",
+          style: {
+            "width": "100%"
+          }
+        }, null, 8 /* PROPS */, _hoisted_37)], 8 /* PROPS */, _hoisted_36)]);
+      }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"mt-5\" id=\"short_tip\">\n                <div class=\"container\">\n                    <div class=\"row\">\n                        <div class=\"col-12\">\n                            <h1 class=\"text-vue\">\n                                Short tip\n                            </h1>\n                            <p class=\"text-muted\">\n                                Short tip yang bikin kamu makin pro.\n                            </p>\n                        </div>\n                        <div class=\"col-12\">\n                            <div class=\"alert alert-warning text-center\">\n                                Tersedia saat launching nanti.\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </section> ")];
     }),
     _: 1 /* STABLE */
   })]);
